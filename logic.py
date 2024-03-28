@@ -73,12 +73,12 @@ class DatabaseManager:
 
     def get_users(self):
         return [x[0] for x in cur.fetchall()] 
-            
-    def get_random_prize(self):
-        return cur.fetchall()[0]
         
     def get_prize_img(self, prize_id):
         return cur.fetchall()[0][0]
+
+    def get_random_prize(self):
+        return cur.fetchall()[0]
     
   
 def hide_img(img_name):
