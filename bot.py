@@ -1,4 +1,3 @@
-
 from telebot import TeleBot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from logic import *
@@ -17,6 +16,7 @@ def gen_markup(id):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
+
     prize_id = call.data
     user_id = call.message.chat.id
 
@@ -34,7 +34,7 @@ def send_message():
         manager.mark_prize_used(prize_id)
 
 def shedule_thread():
-    schedule.every().minute.do(send_message)
+    schedule.every().minute.do(send_message) # Здесь ты можешь задать периодичность отправки картинок
     while True:
         schedule.run_pending()
         time.sleep(1)
@@ -45,13 +45,15 @@ def handle_start(message):
     if user_id in manager.get_users():
         bot.reply_to(message, "Ты уже зарегестрирован!")
     else:
-        manager.add_user(user_id)
+        manager.add_user(user_id, message.from_user.username)
         bot.reply_to(message, """Привет! Добро пожаловать! 
 Тебя успешно зарегистрировали!
 Каждый час тебе будут приходить новые картинки и у тебя будет шанс их получить!
 Для этого нужно быстрее всех нажать на кнопку 'Получить!'
 
 Только три первых пользователя получат картинку!)""")
+        
+
 
 def polling_thread():
     bot.polling(none_stop=True)
@@ -65,3 +67,4 @@ if __name__ == '__main__':
 
     polling_thread.start()
     polling_shedule.start()
+  
