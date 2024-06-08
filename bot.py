@@ -29,8 +29,8 @@ def send_message():
     prize_id, img = manager.get_random_prize()[:2]
     manager.mark_prize_used(prize_id)
     hide_img(img)
-    with open(f'hidden_img/{img}', 'rb') as photo:
-        for user in manager.get_users():
+    for user in manager.get_users():
+        with open(f'hidden_img/{img}', 'rb') as photo:
             bot.send_photo(user, photo, reply_markup=gen_markup(id = prize_id))
         
 
