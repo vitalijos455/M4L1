@@ -26,12 +26,13 @@ def callback_query(call):
 
 
 def send_message():
-    for user in manager.get_users():
-        prize_id, img = manager.get_random_prize()[:2]
-        hide_img(img)
-        with open(f'hidden_img/{img}', 'rb') as photo:
+    prize_id, img = manager.get_random_prize()[:2]
+    manager.mark_prize_used(prize_id)
+    hide_img(img)
+    with open(f'hidden_img/{img}', 'rb') as photo:
+        for user in manager.get_users():
             bot.send_photo(user, photo, reply_markup=gen_markup(id = prize_id))
-        manager.mark_prize_used(prize_id)
+        
 
 def shedule_thread():
     schedule.every().minute.do(send_message) # Здесь ты можешь задать периодичность отправки картинок
